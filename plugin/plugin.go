@@ -16,18 +16,20 @@ import (
 
 // New returns a new secret plugin that sources secrets
 // from the AWS secrets manager.
-func New(client *api.Client) secret.Plugin {
+func New(client *api.Client, pathPrefix string) secret.Plugin {
 	return &plugin{
-		client: client,
+		client:     client,
+		pathPrefix: pathPrefix,
 	}
 }
 
 type plugin struct {
-	client *api.Client
+	client     *api.Client
+	pathPrefix string
 }
 
 func (p *plugin) Find(ctx context.Context, req *secret.Request) (*drone.Secret, error) {
-	path := req.Path
+	path := p.pathPrefix + req.Path
 	name := req.Name
 	if name == "" {
 		name = "value"

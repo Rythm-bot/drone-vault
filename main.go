@@ -48,6 +48,7 @@ type config struct {
 	VaultApproleID     string        `envconfig:"VAULT_APPROLE_ID"`
 	VaultApproleSecret string        `envconfig:"VAULT_APPROLE_SECRET"`
 	VaultKubeRole      string        `envconfig:"VAULT_KUBERNETES_ROLE"`
+	VaultPathPrefix    string        `envconfig:"VAULT_PATH_PREFIX"`
 }
 
 func main() {
@@ -82,7 +83,7 @@ func main() {
 
 	http.Handle("/", secret.Handler(
 		spec.Secret,
-		plugin.New(client),
+		plugin.New(client, spec.VaultPathPrefix),
 		logrus.StandardLogger(),
 	))
 
