@@ -9,11 +9,9 @@ steps:
   commands:
   - sh scripts/build.sh
 
-- name: publish_amd64
+- name: publish
   image: plugins/docker:18
   settings:
-    auto_tag: true
-    auto_tag_suffix: linux-amd64
     dockerfile: docker/Dockerfile.linux.amd64
     username:
       from_secret: docker_username
@@ -21,44 +19,8 @@ steps:
       from_secret: docker_password
     repo: dock.rythm.online/drone-vault
     registry: dock.rythm.online
-  when:
-    branch:
-    - rythm-deploy
-    event:
-    - push
-    - tag
-
-- image: plugins/docker:18
-  name: publish_arm64
-  settings:
-    auto_tag: true
-    auto_tag_suffix: linux-arm64
-    dockerfile: docker/Dockerfile.linux.arm64
-    password:
-      from_secret: docker_password
-    username:
-      from_secret: docker_username
-    repo: dock.rythm.online/drone-vault
-    registry: dock.rythm.online      
-  when:
-    branch:
-    - rythm-deploy
-    event:
-    - push
-    - tag
-
-- name: publish_arm
-  image: plugins/docker:18
-  settings:
-    auto_tag: true
-    auto_tag_suffix: linux-arm
-    dockerfile: docker/Dockerfile.linux.arm
-    username:
-      from_secret: docker_username
-    password:
-      from_secret: docker_password
-    repo: dock.rythm.online/drone-vault
-    registry: dock.rythm.online
+    tags:
+    - ${DRONE_COMMIT_SHA}
   when:
     branch:
     - rythm-deploy
