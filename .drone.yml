@@ -20,10 +20,11 @@ steps:
       from_secret: docker_username
     password:
       from_secret: docker_password
-    repo: drone/vault
+    repo: dock.rythm.online/drone-vault
+    registry: dock.rythm.online
   when:
     branch:
-    - master
+    - rythm-deploy
     event:
     - push
     - tag
@@ -36,12 +37,13 @@ steps:
     dockerfile: docker/Dockerfile.linux.arm64
     password:
       from_secret: docker_password
-    repo: drone/vault
     username:
       from_secret: docker_username
+    repo: dock.rythm.online/drone-vault
+    registry: dock.rythm.online      
   when:
     branch:
-    - master
+    - rythm-deploy
     event:
     - push
     - tag
@@ -56,27 +58,11 @@ steps:
       from_secret: docker_username
     password:
       from_secret: docker_password
-    repo: drone/vault
+    repo: dock.rythm.online/drone-vault
+    registry: dock.rythm.online
   when:
     branch:
-    - master
-    event:
-    - push
-    - tag
-
-- name: manifest
-  image: plugins/manifest
-  settings:
-    auto_tag: true
-    ignore_missing: true
-    spec: docker/manifest.tmpl
-    username:
-      from_secret: docker_username
-    password:
-      from_secret: docker_password
-  when:
-    branch:
-    - master
+    - rythm-deploy
     event:
     - push
     - tag
