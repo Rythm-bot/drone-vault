@@ -7,7 +7,6 @@ steps:
 - name: build
   image: golang:1.16
   commands:
-  - go test -v ./...
   - sh scripts/build.sh
 
 - name: publish_amd64
